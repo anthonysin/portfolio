@@ -3,10 +3,10 @@ name: Deploy Angular to GitHub Pages
 on:
   push:
     branches:
-      - main  # Runs when you push to main
+      - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,16 +16,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20  # Ensure this matches your Node.js version
+          node-version: 20
 
       - name: Install Dependencies
         run: npm install
 
       - name: Build Angular Project
-        run: ng build --output-path docs --base-href /portfolio/
+        run: ng build --output-path docs --base-href /your-repo-name/
 
-      - name: Add .nojekyll (Disable Jekyll Processing)
-        run: touch docs/.nojekyll
+      - name: Create .nojekyll File
+        run: |
+          touch docs/.nojekyll
+          ls -la docs/  # Debugging step to check if docs/ exists
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
